@@ -61,17 +61,17 @@ class LoginViewController : UIViewController {
     //========================================
     
     func getProvisioningProfiles(_ url: URL, user: String, password: String) {
-               open(url)
-           >>* get(by: .id("accountname"))
-           >>> setAttribute("value", value: user)
-           >>* get(by: .id("accountpassword"))
-           >>> setAttribute("value", value: password)
-           >>* get(by: .name("form2"))
-           >>> submit(then: .wait(2.0))
-           >>* get(by: .contains("href", "/certificate/"))
-           >>> click(then: .wait(2.5))
-           >>* getAll(by: .contains("class", "row-"))
-           === handleResult
+        open(then: .wait(2.5))(url)
+                >>* get(by: .id("account_name_text_field"))
+                >>> setAttribute("value", value: user)
+                >>* get(by: .id("password_text_field"))
+                >>> setAttribute("value", value: password)
+                >>* get(by: .name("form1"))
+                >>> submit(then: .wait(2.0))
+                >>* get(by: .contains("href", "/certificate/"))
+                >>> click(then: .wait(2.5))
+                >>* getAll(by: .contains("class", "row-"))
+                === handleResult
     }
     
     //========================================
@@ -86,7 +86,7 @@ class LoginViewController : UIViewController {
     }
     
     func outputResult(_ rows: [HTMLTableRow]) {
-        let columns = rows.flatMap { $0.columns?.first }
+        let columns = rows.compactMap { $0.columns?.first }
         performSegue(withIdentifier: "detailSegue", sender: columns)
     }
     

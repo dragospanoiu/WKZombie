@@ -1,6 +1,3 @@
-source 'https://github.com/CocoaPods/Specs.git'
-install! 'cocoapods', :deterministic_uuids => false
-inhibit_all_warnings!
 use_frameworks!
 
 def import_pods
@@ -8,19 +5,19 @@ def import_pods
 end
 
 target 'Example iOS' do
-	platform :ios, '9.1'
+	platform :ios, '10.3'
 	import_pods
 end
 
 target 'Example OSX' do
-	platform :osx, '10.11'
+	platform :osx, '10.12'
 	import_pods
 end
 
 post_install do |installer|
   installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|
-          config.build_settings['SWIFT_VERSION'] = '4.0'
+          config.build_settings['SWIFT_VERSION'] = '5.0'
       end
   end
 end
